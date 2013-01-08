@@ -3,7 +3,7 @@ define(['text!templates/index.html'], function(indexTemplate) {
     el: $('#content'),
 
     render: function() {
-      this.$el.html(indexTemplae);
+      this.$el.html(indexTemplate);
     }
   });
 
