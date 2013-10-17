@@ -14,17 +14,20 @@ var config = {
 // Import the accounts
 var Account = require('./models/Account')(config, mongoose, nodemailer);
 
-app.configure(function(){
+app.configure(function() {
   app.set('view engine', 'jade');
   app.use(express.static(__dirname + '/public'));
   app.use(express.limit('1mb'));
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.session({secret: 'SocialNet secret key', store: new MemoryStore()}));
-  mongoose.connect('mongodb://localhost/nodebackbone');
+  app.use(express.session({
+    secret: 'SocialNet secret key',
+    store: new MemoryStore()
+  }));
+  mongoose.connect('mongodb://localhost/nodebackbone');s
 });
 
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
   res.render('index.jade');
 });
 
@@ -33,20 +36,19 @@ app.post('/login', function(req, res) {
   var email = req.param('email', null);
   var password = req.param('password', null);
 
-  if ( null == email || email.length < 1
-      || null == password || password.length < 1 ) {
+  if (null == email || email.length < 1 || null == password || password.length < 1) {
     res.send(400);
     return;
   }
 
   Account.login(email, password, function(success) {
-    if ( !success ) {
+    if (!success) {
       res.send(401);
       return;
     }
     console.log('login was successful');
     req.session.loggedIn = true;
-  res.send(200);
+    res.send(200);
   });
 });
 
@@ -56,8 +58,7 @@ app.post('/register', function(req, res) {
   var email = req.param('email', null);
   var password = req.param('password', null);
 
-  if ( null == email || email.length < 1
-       || null == password || password.length < 1 ) {
+  if (null == email || email.length < 1 || null == password || password.length < 1) {
     res.send(400);
     return;
   }
@@ -67,7 +68,7 @@ app.post('/register', function(req, res) {
 });
 
 app.get('/account/authenticated', function(req, res) {
-  if ( req.session.loggedIn ) {
+  if (req.session.loggedIn) {
     res.send(200);
   } else {
     res.send(401);
@@ -78,12 +79,12 @@ app.post('/forgotpassword', function(req, res) {
   var hostname = req.headers.host;
   var resetPasswordUrl = 'http://' + hostname + '/resetPassword';
   var email = req.param('email', null);
-  if ( null == email || email.length < 1 ) {
+  if (null == email || email.length < 1) {
     res.send(400);
     return;
   }
 
-  Account.forgotPassword(email, resetPasswordUrl, function(success){
+  Account.forgotPassword(email, resetPasswordUrl, function(success) {
     if (success) {
       res.send(200);
     } else {
@@ -95,13 +96,17 @@ app.post('/forgotpassword', function(req, res) {
 
 app.get('/resetPassword', function(req, res) {
   var accountId = req.param('account', null);
-  res.render('resetPassword.jade', {locals:{accountId:accountId}});
+  res.render('resetPassword.jade', {
+    locals: {
+      accountId: accountId
+    }
+  });
 });
 
 app.post('/resetPassword', function(req, res) {
   var accountId = req.param('accountId', null);
   var password = req.param('password', null);
-  if ( null != accountId && null != password ) {
+  if (null != accountId && null != password) {
     Account.changePassword(accountId, password);
   }
   res.render('resetPasswordSuccess.jade');

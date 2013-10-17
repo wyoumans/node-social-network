@@ -10,7 +10,7 @@ define(['views/index', 'views/register', 'views/login', 'views/forgotpassword'],
     },
 
     changeView: function(view) {
-      if(null != this.currentView) {
+      if (null != this.currentView) {
         this.currentView.undelegateEvents();
       }
       this.currentView = view;
