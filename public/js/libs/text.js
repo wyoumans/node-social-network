@@ -160,7 +160,7 @@ define(['module'], function(module) {
         nonStripName = parsed.moduleName + '.' + parsed.ext,
         url = req.toUrl(nonStripName),
         useXhr = (masterConfig.useXhr) ||
-          text.useXhr;
+        text.useXhr;
 
       //Load the text. Use XHR if possible and in a browser.
       if (!hasLocation || useXhr(url, defaultProtocol, defaultHostName, defaultPort)) {
@@ -222,7 +222,7 @@ define(['module'], function(module) {
 
   if (masterConfig.env === 'node' || (!masterConfig.env &&
     typeof process !== "undefined" &&
-    process.versions && !! process.versions.node)) {
+    process.versions && !!process.versions.node)) {
     //Using special require.nodeRequire, something added by r.js.
     fs = require.nodeRequire('fs');
 

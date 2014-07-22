@@ -24,7 +24,7 @@ app.configure(function() {
     secret: 'SocialNet secret key',
     store: new MemoryStore()
   }));
-  mongoose.connect('mongodb://localhost/nodebackbone');s
+  mongoose.connect('mongodb://localhost/nodebackbone');
 });
 
 app.get('/', function(req, res) {
